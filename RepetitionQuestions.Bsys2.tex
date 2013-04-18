@@ -213,8 +213,26 @@ urlcolor=black
 	\li Welche Probleme mit dem Cache ergeben sich bei Multi Core Systemen?
 	\li Nennen Sie einige Nachteile des Cache Speichers.
 	\li Welchen Einfluss hat der Cache Speicher auf die Leistung?
+	\li Sie stellen fest, dass beim Kopieren von Daten auf ihre SSD bei Dateien die kleiner als 5MiB die Schreibgeschwindigkeit viel höher ist als bei grösseren Dateien. Woher kommt dieser Effekt und ist dies wirklich so?
+	\li Ihr Festplattentreiber arbeitet ohne DMA und ohne Interrupt Signale. Zeichnen Sie den Datenfluss im Bereich des Hauptspeichers, L1, L2, L3 Cache und der CPU. Nutzen die Caches bei dieser Operation etwas? Wenn ja, wie?
 }
 
+\se{Heap}
+\olp{
+	\li Was ist der Heap? Machen Sie eine Schematische Skizze des Speichers, in der Sie sowohl für das Betriebssystem wie für eine Applikation Bereiche für Heap, Stack, Argumente, Daten, etc. einzeichnen.
+	\li WIe unterscheidet sich der Heap vom Stack? Nennen Sie typische Daten, die auf dem Stack abgelegt werden und nennen Sie typische Daten, die auf dem Heap abgelegt werden.
+	\li Wozu braucht es den Heap? Warum können nicht alle Daten auf dem Stack abgelegt werden?
+	\li Erklären Sie wie Sie auf dem Heap Speicher allozieren und wieder freigeben für C, C++, Java. Was passiert, wenn Sie vergessen, den Speicher wieder freizugeben? Warum ist dies bei einem Server tragischer als bei einem Desktop System?
+	\li Für welche Systeminterne Aufgaben wird der Heap verwendet?	
+	\li Erklären Sie die Grundprinzipien der vier Heaporganisationsformen, die es gibt. Nennen Sie je Vor- und Nachteile und machen Sie je eine Skizze, wie sich der Speicher verändert und wie die Verwaltungsdaten dazu aussehen. Erklären Sie auch die jeweiligen Suchalgorithmen für freien Speicher.
+	\li Können SIe in einem Programm die Rekombination des Heap beeinflussen?
+	\li Was sind Metadaten der Heap Verwaltung? Wo werden Sie abgelegt? Nennen Sie je Vor- und Nachteile.
+	\li Erklären Sie interne und externe Fragmentierung.
+	\li Was ist Kompaktierung?
+	\li Was sind Master Pointer? Warum braucht es sie?
+	\łi Welche Probleme mit Echtzeitanwendungen ergeben sich bei einer Heap Verwaltung mit variabler Zuordnungsgrösse?
+	\li Skizzieren Sie einen Belegungsplan.
+}
 
 
 
