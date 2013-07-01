@@ -1,5 +1,5 @@
-Antworten zu den Bsys2 Repetitionsfragen FS13
-=============================================
+Bsys2 FS13 Repetitionsfragen Antworten
+======================================
 
 Sicherheit
 ----------
@@ -123,6 +123,7 @@ Ein-/Ausgabe
 	- Über den Prozessor: Die Daten werden von der Eingabe eingelesen, durch den Prozessor verarbeitet und auf die Ausgabe geschrieben.
 		- (-) Belastet den Prozessor unnötig stark.
 	- Interrupt gesteuert: Der Prozessor wird durch Interrupts unterrbochen und steuert jeweils den Transfer. Die Daten laufen nicht über den Prozessor.
+		- Prozessor wird weniger belastet als oben, aber mehr als bei DMA K.
 	- DMA Kontroller: Der Prozessor initiert den Prozess, anschliessend läuft er über den DMA Kontroller. Der Prozessor wird erst wieder gestört, um die Fertigstellung mitzuteilen.
 		- (+) Belastet den Prozessor praktisch nicht
 
