@@ -1,7 +1,7 @@
 Bsys2 FS13 Repetitionsfragen Antworten
 ======================================
 
-`Repetitionsfragen: <https://github.com/moonline/Bsys2/blob/master/RepetitionQuestions.Bsys2.tex>`_
+Repetitionsfragen: `https://github.com/moonline/Bsys2/blob/master/RepetitionQuestions.Bsys2.tex`_
 
 Sicherheit
 ----------
