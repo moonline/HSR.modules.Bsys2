@@ -46,14 +46,15 @@ Sicherheit
 13)	Ownerkonzept: Sämmtliche Felder in den Spalten seiner Objekte
 	Kontrollkonzept: Sämmtliche Felder in den Zeilen seiner Domäne
 
-14)	Zugriffsliste als globale Tabelle mit Trippeln:
+14)	
+	- Zugriffsliste als globale Tabelle mit Trippeln:
 		- (-) verändern der Rechte bedingt durchgehen der Liste
 
-	Zugriffsliste pro File (ACL):
+	- Zugriffsliste pro File (ACL):
 		- (+) Rechte schnell gefunden bei Zugriff
 		- (-) Löschen der Rechte einesgelöschten Users schwierig
 
-	Zugriffsliste pro Domäne (Ticket Liste):
+	- Zugriffsliste pro Domäne (Ticket Liste):
 		- (+) Rechte einer Domäne sind zusammen abgelegt
 		- (+) Löschen einer Domäne einfach
 		- (-) Technisch anspruchsvoll umzusetzen
@@ -119,7 +120,7 @@ Unix Scripting
 Ein-/Ausgabe
 ------------
 33)
-	- über den Prozessor: Die Daten werden von der Eingabe eingelesen, durch den Prozessor verarbeitet und auf die Ausgabe geschrieben.
+	- Über den Prozessor: Die Daten werden von der Eingabe eingelesen, durch den Prozessor verarbeitet und auf die Ausgabe geschrieben.
 		- (-) Belastet den Prozessor unnötig stark.
 	- Interrupt gesteuert: Der Prozessor wird durch Interrupts unterrbochen und steuert jeweils den Transfer. Die Daten laufen nicht über den Prozessor.
 	- DMA Kontroller: Der Prozessor initiert den Prozess, anschliessend läuft er über den DMA Kontroller. Der Prozessor wird erst wieder gestört, um die Fertigstellung mitzuteilen.
