@@ -47,16 +47,16 @@ Sicherheit
 	Kontrollkonzept: Sämmtliche Felder in den Zeilen seiner Domäne
 
 14)	Zugriffsliste als globale Tabelle mit Trippeln:
-	(-) verändern der Rechte bedingt durchgehen der Liste
+		- (-) verändern der Rechte bedingt durchgehen der Liste
 
 	Zugriffsliste pro File (ACL):
-	(+) Rechte schnell gefunden bei Zugriff
-	(-) Löschen der Rechte einesgelöschten Users schwierig
+		- (+) Rechte schnell gefunden bei Zugriff
+		- (-) Löschen der Rechte einesgelöschten Users schwierig
 
 	Zugriffsliste pro Domäne (Ticket Liste):
-	(+) Rechte einer Domäne sind zusammen abgelegt
-	(+) Löschen einer Domäne einfach
-	(-) Technisch anspruchsvoll umzusetzen
+		- (+) Rechte einer Domäne sind zusammen abgelegt
+		- (+) Löschen einer Domäne einfach
+		- (-) Technisch anspruchsvoll umzusetzen
 
 15)	
 	- Benutzerbestimmt: Benutzer (owner) bestimmt, wer was mit seinen Objekten macht
@@ -86,7 +86,7 @@ Unix Sicherheit
 
 23)	
 	- Ausführen der Datei mit Rechten der Benutzers oder der Gruppe statt mit den Rechten der Datei.
-	-Datei kann für jeden Benutzer mit dessen Rechten ausgeführt werden.
+	- Datei kann für jeden Benutzer mit dessen Rechten ausgeführt werden.
 
 24) Rechtetemplate für neue Dateien
 
@@ -120,10 +120,10 @@ Ein-/Ausgabe
 ------------
 33)
 	- über den Prozessor: Die Daten werden von der Eingabe eingelesen, durch den Prozessor verarbeitet und auf die Ausgabe geschrieben.
-	(-) Belastet den Prozessor unnötig stark.
+		- (-) Belastet den Prozessor unnötig stark.
 	- Interrupt gesteuert: Der Prozessor wird durch Interrupts unterrbochen und steuert jeweils den Transfer. Die Daten laufen nicht über den Prozessor.
 	- DMA Kontroller: Der Prozessor initiert den Prozess, anschliessend läuft er über den DMA Kontroller. Der Prozessor wird erst wieder gestört, um die Fertigstellung mitzuteilen.
-	(+) Belastet den Prozessor praktisch nicht
+		- (+) Belastet den Prozessor praktisch nicht
 
 34) siehe 33
 
