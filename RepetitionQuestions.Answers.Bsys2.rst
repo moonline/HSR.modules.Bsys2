@@ -98,9 +98,12 @@ Unix Sicherheit
 
 Windows Sicherheit
 ------------------
-26)	
+26) Dateien sind ein Owner und eine oder mehrere Groups zugeordnet. Der Owner hat das alleinige Recht die Rechte zu ändern. Die Rechteverwaltung basiert auf ACL's. Der Administrator unterliegt ebenfalls den gesetzten Rechten der Rechteverwaltung. Er kann aber Owner werden (take Ownership).
+Laufwerke,  Drucker, etc. unterliegen auch den ACL's. Mittels Gruppenrichtlinien können zusätzliche Rechte gesetzt werden und auch Zugriffe auf Dienste gesteuert werden.
 
-27)
+27) 
+	- Domänen: Benutzer, Gruppen
+	- Objekte: Dateien, Laufwerke, Drucker, Dienste, ...
 
 
 Unix Scripting
@@ -142,3 +145,58 @@ Ein-/Ausgabe
 
 X Window System
 ---------------
+37) Es wurde ein verteiltes, Hardwareunabhängiges, netzwerktransparentes System zur UI Anzeige benötigt.
+
+38) Hardwareunabhängigkeit (Austauschbar, setzt auf Unix auf), Netzwerktransparent durch die Client/Server Architektur, alle Programme und Frameworks sind kompatibel, nur installierbar wenn wirklich notwendig, Legt die Oberfläche nicht fest, sondern verwaltet nur die Ansteuerung der Toolkits.
+
+39) [Terminal]----Serielle Verbindung----[Serieschnittstellentreiber | BS Funktion für Zeichen Ein- und Ausgabe | Applikation]
+
+40) Verwaltung der eingehenden Events (Keyboard, Mouse, Touch, ...), Weiterleitung an die Applikation und Verarbeitung der Applikationevents, Eventausgabe (Monitor). Im Unterschied zu Wailand oder Mir besitzt X11 kein Compositor, sonder lagert das Zusammenführen der einzelnen GUI Elemente zu einem Ausgabebild aus.
+
+41) [Ausgabegeräte, Eingabegeräte] <-> [X-Server] <-> [X-Client, Event Queue]
+	Eingaben von Eingabegeräten landen direkt beim X-Server. Dieser stellt die Events in die EventQueue der betreffenden Applikationen (X-Clients). Applikationen teilen dem X-Server mit, wenn sie etwas dargestellt möchten. Dieser lässt durch den Compositor die Ausgaberendern und gibt Sie an das Ausgabegerät.
+	Ein- und Ausgabegeräte sind somit nicht gekoppelt. So weiss z.B. Das Touchpanel des Bildschirms nichts von der Ausgabe und kann bei einer Rotation der Ausgabe nicht automatisch die Eingabe umkehren. Diese Aufgabe muss der X-Server übernehmen. Dies führt zu dem Problem, dass der X-Server über Jahre für neue Eingabegeräte erweitert werden musste, für die er ursprünglich nicht gedacht war.
+
+42) 
+	* Verwaltet die Fenster. 
+	* Technisch nur ein weiterer X-Client neben den Applikationen.
+	* Bestimmt, wie Fenster auf dem Bildschirm dargestellt werden und verwaltet Fensterbewegungen.
+	* Stattet die Fensterleiste mit den entsprechenden Knöpfen aus.
+
+43) Library, die dem Programmierer eine komfortablere Nutzung der X-Funktionalität ermöglicht.
+
+44) Stellen eine elementare Benutzeroberfläche mit Grundfunktionen basierend auf dem X-Toolkit.
+
+45) Definiert das Nachrichtenformat, mit dem X-Server und X-Clients über das Netzwerk kommunizieren.
+
+46) Die Pufferung dient der Traficminimierung zwischen Client und Server.
+	* Requestpuffer (Dienstanforderungen): Der Server leert seinen Puffer (und senden an den Client) wenn
+		* der Client blockiert und auf ein Ereignis wartet
+		* der Client eine Anfrage mit zwingender sofortiger Antwort an den Server gestellt hat
+		* der Client eine Leerung explzit verlangt
+	* Ereignisse werden beim Server und beim Client gepuffert
+		* der Server puffert zur Zusammenfassung von Events
+		* der Client puffert eingehende Events (Meldungsschleife), bis er Zeit hat, diese abzuarbeiten
+	* Arten von Nachrichten:
+		* Requests (client -> server)
+		* replies (server -> client)
+		* events (client -> server)
+		* errors (server -> client)
+	
+47) X-Ressourcen speichern auf dem X-Server Infomationen im Auftrag des Clients (zur Traficreduktion). Beispiele:
+	* Window preferences
+	* Rastergrafiken
+	* Farbtabellen
+	* Schriften
+	* Eigenschaften von Grafikelementen
+
+48) Die Fenster sind wie in einem Baum dem Hautfenster (Root window) untergegliedert. Wiederum sind deren Fensterinhalte Blätter der Fenster.
+
+49) Einfache Formen und Linien
+
+50) Die Farbtabelle stellt Shortcuts für die aktuell verwendeten Farben bereit. Dadurch wird der Trafic massiv verringert gegenüber einer direkten Nutzung von z.B. RGB
+
+51) Ereignisse (Benutzereingaben (Keyboard, Maus, Touch, ...), Systemereignisse (Fenster anzeigen, ...)) werden an das Element unterhalb der Maus gesendet, das sich zu unterst im Baum befindet (an oberster Stelle auf dem Display befindet). Interessiert sich das Element nicht für das Ereignis, wird es an das Elternwindow weitergereicht, allenfalls bis hoch zum root window.
+
+Windows GUI
+-----------
