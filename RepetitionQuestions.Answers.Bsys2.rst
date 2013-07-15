@@ -267,3 +267,108 @@ Windows GUI
 62) Das Kindfenster erzeugt für relevante Ereignisse eine Meldung und sendet diese an das Elternfenster.
 
 63) Elternfenster können Kindfenster nur über Meldungen beeinflussen.
+
+
+Speichersystem
+==============
+64)
+	Primärspeicher
+		Dient der kurzzeitigen Ablage von Daten, ist direkt adressierbar und besitzt eine physische Datenorganisation mit nummerierten Speicherplätzen. (Hauptspeicher / Arbeitsspeicher)
+	Sekundärspeicher
+		Dient der längerfristigen Lagerung von Daten, ist indirekt adressierbar über eine Schnittstellenhardware und/Software und besitzt eine logische Datenorganisation. (Platten, Bänder)
+		
+65)
+	Direkt adressierbarer Speicher
+		Über die Adresse wird direkt die gewünschte Speicherstelle angesprochen. Es kann auf beliebige Speicherstellen zugegriffen werden.
+		Hauptanwendung: RAM/ROM
+	Mehrportspeicher
+		Speicher mit mehreren Zugriffspfaden. Mehrere Elemente können damit gleichzeitig auf den Speicher (sogar auf die gleiche Speicherzelle) zugreifen.
+	Schieberegister
+		Ein Bitmuster wird durch eine Kette von 1-Bit Speicherstellen geschoben, die Speicherstellen werden dabei nach bestimmten Regeln verknüpft. 
+		Hauptanwendung: Umwandlung von Daten
+	Fifo Speicher
+		Daten werden wie in einer Schlange abgelegt. Daten werden hinten in die Schlange eingefügt und vorne entnommen. Es kann immer nur das vorderste Element zugegriffen werden.
+		Hauptanwendung: Warteschlangen
+	Stack
+		Daten werden auf einen Stapel gelegt. Es kann immer nur das oberste (und damit zuletzt auf den Stapel gelegte) Element entnommen werden.
+		Hauptanwendung: Programmstack
+	Assoziationsspeicher (Content addressable memory CAM)
+		Daten werden über Teilinformationen abgerufen, analog Key/Value Storages
+		
+66)	Die Maske definiert die Spalten des Musters, die mit dem Inhalt matchen müssen. In diesem Falle die Spalten 4 und 8
+
+	+------------+-----------------+---------+
+	| Suchmuster | 0 1 0 0 0 1 0 1 | Treffer |
+	+------------+-----------------+ -       |
+	| Maske      | 0 0 0 1 0 0 0 1 | Bit     |
+	+============+=================+=========+
+	| Speicher   | 0 1 0 0 0 0 0 1 | 1       |
+	| Inhalt     +-----------------+---------+
+	|            | 1 1 1 1 0 0 0 0 | 0       |
+	|            +-----------------+---------+
+	|            | 1 1 0 0 1 0 1 0 | 0       |
+	|            +-----------------+---------+
+	|            | 0 0 1 0 0 0 0 0 | 0       |
+	|            +-----------------+---------+
+	|            | 1 1 1 1 1 1 1 0 | 0       |
+	|            +-----------------+---------+
+	|            | 1 0 0 0 0 0 0 1 | 1       |
+	|            +-----------------+---------+
+	|            | 1 0 0 1 1 1 1 0 | 0       |
+	|            +-----------------+---------+
+	|            | 1 0 1 1 0 0 1 1 | 0       |
+	+------------+-----------------+---------+
+	| Resultate  | 0 1 0 0 0 0 0 1 |         |
+	| Zeilen 1,6 +-----------------+         |
+	|            | 1 0 0 0 0 0 0 1 |         |
+	+------------+-----------------+---------+
+	
+67) Ein sehr kleiner Teil der Daten werden immer wieder gebraucht, der Grossteil der Daten (95%) selten. Diesen Lokalitätseffekt kann man nutzen, um mit einen Cache Speicher zu realisieren, der 5% der Grösse des Hauptspeichers beträgt und doch einen Grossteil der Anfragen abdecken kann. -> Kosten- und Geschwindigkeitsoptimierung
+
+68)
+	* [CPU] -- [L1] -- [L2] -- [L3] -- [Hauptspeicher] <-> [HDD]
+	* Lx: Cache Speicher
+	* Prozessornahe Stufen sind schnell und teuer, prozessorferne gross und billig
+	* Daten, die der Prozessor benötigt, müssen zuerst in Prozessornahe Speicher transferiert werden
+	
+
+Cache Speicher
+--------------
+69) Verringerung der Zugriffszeit auf häufig gebrauchte Daten
+
+70) .. code-block:: formula
+	
+		Geg: tc 1.1ns, tm 10.5ns, h 88%
+		Ges: mittlere Zugriffszeit teff
+		Lös:
+		teff = h*tc+(1-h)*tm = 0.88*1.1ns+0.12*10.5ns = 2.2ns
+	
+71) Der Cache enthält Ausschnitte des Hauptspeichers. Möchte der Prozessor auf Inhalte zugreifen, die nicht im Cache sind, so müssen diese zuerst in den Cache geladen werden (Wird automatisch von der Cache Logik erledigt). Die Cache Steuerlogik ist in Hardware implementiert.
+
+72) Arbeiten mehrere Prozessoren mit dem Cache, so ist nicht klar, ob die Daten im Cache noch aktuell sind oder nicht. Eine Möglichkeit zur Umgehung des Problems ist die Löschung (Markieren als ungültig) aller Caches bei einem Schreibzugriff (sehr langsam) oder ein Write through (Schreibzugriffe gehen immer in Cache+HS) (auch langsam).
+
+73)
+	* Erst wenn der Prozessor auf eine nicht im Cache vorhandene Adresse zugreifen will, kann der Inhalt aus dem HS nachgeladen werden -> Langsam
+	* Bei der Adressierung werden mehrere Byte zu einer Cache Zeile zusammengefasst werden. Müssen Inhalte in den Cache geladen werden, so muss immer die ganze Zeile geladen werden.
+	* Der Cache bringt nur lesenden Zugriffen eine Beschleunigung
+	* Peripherieadressräume dürfen NIE über den Cache angebungen werden, wegen den Hardwarestatuswerten
+	* Der Cache beschleunigt nur den HS, nicht aber Register oder logische Operationen
+	
+74) Cache-Speicher Grösse, Cache-Zeilen Grösse und die Organisationsform des Caches beeinflussen dessen Einflussfaktor auf die Leistung. Damit der Cache die Leistung positiv beeinflussen kann, muss er eine hohe Trefferrate aufweisen.
+
+75) Grund dafür ist der SSD-Cache, der Schreibvorgänge Cached und dem System damit eine hohe Schreibgeschwindigkeit vorgaukelt. Ist die zu schreibende Datei grösser als der Cache, so muss die Datei direkt auf die Platte geschrieben werden und damit kommt die Geschwindigkeit der SSD und nicht die Geschindigkeit des Caches zum tragen.
+
+76)	Der gesammte Kopiervorgang läuft über den Prozessor. Die Daten werden von Speicher zu Speicher verschoben, bis sie den Prozessor erreicht haben und anschliessend wieder von Speicher zu Speicher verschoben (oder in die Caches und den HS durchgeschrieben (write through) bis sie auf der Platte angelangt sind.
+	Der Cache nutzt in diesem Fall überhaupt nichts. Im Gegenteil, die Kopiererei verlangsamt den Vorgang sogar.
+
+	Datenfluss::
+	
+		    +-- [L1] <-- [L2] <-- [L3] <-- [HS] <-- [HDD]
+		    v
+		[Prozessor]
+		    |
+		    +-- Write trough --> [HS] --> [HDD]
+	
+	
+Heap
+----
