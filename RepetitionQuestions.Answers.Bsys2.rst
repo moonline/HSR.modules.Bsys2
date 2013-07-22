@@ -583,12 +583,103 @@ Programmübersetzung
 		
 96) Der Compiler besitzt verschiedene Ausgabemodule für verschiedene Plattformen. Die IR abstrahiert die compilierung von der Ausgabe. Der Src-Code wird Plattformunabhängig in die IR umgewandelt und dann erst durch das spezifische Ausgabemodul für die Plattform erzeugt.
 
-97) 
-	compilation
-		Die Dateien werden einzeln in Objektdateien übersetzt
-	1. linkage
-		Die Objektdateien werden gebunden, ebenfalls die Objektdateien der Bibliotheken
-	2. Linkage
-		Die gebundenen Objektdateien und die gebundenen Bibliotheken werden zusammengebunden
-		
+97) siehe 95. Vorteil der Mehrweg Übersetzung: Wenn eine einzelne Klasse geändert wurde, muss nur diese neu kompiliert und anschliessend alles gebunden werden (effizienter, schneller).
+
 98) 
+	preprocessing & compilation
+		Die Dateien werden einzeln in Assembler Quellcode übersetzt
+	assembling
+		Aus dem Assembler Quellcode werden ungebundene Objektdateien erzeugt.
+	bindung
+		1) Die Objektdateien werden gebunden, ebenfalls die Objektdateien der Bibliotheken
+		2) Die gebundenen Objektdateien und die gebundenen Bibliotheken werden zusammengebunden
+		
+99) 
+	Funktion
+		Die T-Notation stellt die Übersetzung und Ausführung in Bezug auf die Plattform dar.
+	Symbole::
+		
+		| zz | Maschine mit zz Prozessor
+	
+		| P | Programm p mit Logik x
+		| x |
+		
+		| E | Eingabe
+		
+		| A | Ausgabe
+		
+		| A --> B | Übersetzer von A nach B in der Form X
+		   | X |
+		
+		
+	Direkte Ausführung::
+		
+		| E | calc | A | Ausführung auf der gleichen Maschine (68k auf 68k)
+		    |_68k__|
+		    | 68k  |
+		    
+		    
+	Interpretation::
+	
+		| E | calc | A | Ausführung über Java Virtual Machine auf k68 Prozessor
+		    |_java_|
+		    | Java |
+		    |_68k__|
+		    | 68k  |
+		    
+		    
+	Resident Compiler::
+	
+		| calc |             | calc | Programm in c++, das auf einer k68er Plattform für einen k68er Prozessor übersetzt wird
+		| c++  | c++ --> 68k | 68k  |
+		           |_68k_|
+		           | 68k |
+		           
+		           
+	Cross Compiler::
+	
+		| calc |             | calc | Programm in c++, das auf einer k68er Plattform für einen x86er Prozessor übersetzt wird
+		| c++  | c++ --> x86 | x86  |
+		           |_68k_|
+		           | 68k |
+		           
+		           
+	Cross Assembler::
+	
+		| num  |              | num  | Programm in 68k Assembler, das auf einer pentium Plattform für einen 68k Prozessor übersetzt wird
+		| A68k | A68k -> O68k | O68k |
+		           |_pent_|
+		           | pent |
+		           
+		           
+100)
+	Crosscompiler
+		Erzeugt Code für eine andere Plattform, als die auf der der Compiler läuft
+	Crossassembler
+		Erzeugt Objektdateien für eine Plattform x aus Assemblerquellcode für die Plattform x auf der Plattform y
+	Resident Compiler
+		Erzeugt Aus Quellcode Maschinencode für die aktuelle Plattform. Aus einem Crosscompiler kann ein Residentcompiler erzeugt werden.
+		
+101) Liegt bereits ein Crosscompiler für die Plattform vor, kann der Residentcompiler aus dieser compiled weren.
+
+102) Linkt Objektdateien und Objektbibliotheksdateien für eine Andere Plattform als die, auf der er selber läuft.
+
+103)
+	Direkte Ausführung
+		Der Quellcode wird direkt in Maschinencode für die entsprechende Hardware übersetzt und auf der Hardware ausgeführt
+	Interpretierte Ausführung
+		Der Quellcode wird in Bytecode übersetzt, der in einer virtuellen Maschine erneut interpretiert und für die aktuelle Plattform in Maschinencode umgewandelt wird. (1 Zwischenschritt)
+		
+104)
+	* Ausführbarer Maschinencode
+	* Daten
+	* Zusatzinformationen über Extern und Public Elemente
+	
+105) Noch nicht ladbare Objektdatei mit vorläufigen Adressen für Code und Daten, die beim binden umplatziert (reloziert).
+
+106) Bei 0.
+
+107) Diese Information steht in der Relozierungstabelle in der Objektdatei.
+
+
+
