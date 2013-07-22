@@ -372,3 +372,131 @@ Cache Speicher
 	
 Heap
 ----
+77) Der Heap ist ein Speicherbereich, indem Prozesse dynamisch Speicher allozieren können. Die Programme sind selbst dafür verantwortlich, dass der Speicher wieder freigegeben wird.
+	Schematische Darstellung::
+
+		+------------------------+
+		|                        |
+		+------------------------+   ""\
+		| arguments              |     |
+		+------------------------+     |
+		| environment            |     |
+		+------------------------+     |
+		| code                   |      \
+		+------------------------+       } Application stuff
+		| data                   |      /
+		+------------------------+     |
+		| stack                  |     |
+		+------------------------+     |
+		| heap                   |     |
+		+------------------------+   ../
+		|                        |
+		|                        |
+		+------------------------+   ""\
+		| code                   |     |
+		+------------------------+     |
+		| daten                  |      \
+		+------------------------+       } OS stuff
+		| stack                  |      /
+		+------------------------+     |
+		| heap                   |     |
+		+------------------------+   ../
+		|                        |
+		+------------------------+
+
+
+78) Der Stack legt die neusten Daten zu oberst auf den Stapel. Wird die aktuelle Funktion beendet, wird dieser Bereich vom Stack abgeräumt und de Daten sind weg. Auf dem Heap verbleiben die Daten bis sie gelöscht werden.
+	Heap
+		* Mit new angelegte Elemente
+	Stack
+		* Methodenaufrufparameter
+		* Rücksrungadresse
+		* Framepointer
+		* lokale Variablen
+
+79) Daten, deren Gültigkeit über die Laufzeit der Funktion hinausgehen, in der sie erzeugt werden, müssen zwingend auf dem Heap abgelegt werden, damit sie weiterhin verfügbar sind.
+
+80)
+	C
+		* malloc(size)
+		* free(pointer)
+		* nicht freigegebener Speicher bleibt reserviert, bis der Prozess beendet wird
+	C++
+		* new type
+		* delete pointer
+		*nicht freigegebener Speicher bleibt reserviert, bis der Prozess beendet wird
+	Java
+		* new
+		* -
+		* Garbage Collection räumt nicht mehr referenzierte Objekt automatisch irgendwann ab
+	Desktop / Server
+		Server laufen unter umständen Jahre. Entsprechend laufen einige Serverprozesse auch Jahre. Würde ein Programm vergessen Speicher dreizugeben, wäre der Speicher irgendwann voll. Bei Desktops ist dies weniger ein Problem, da die Prozesse meist beendet werden, bevor der Speicher volllaufen kann.
+
+81)
+	* systeminterne Meldungen
+	* systeminterne Tabellen und Objekte
+	* Sprachübergreifende Speicherbereitstellung
+
+82)
+	variable Zuordnungsgrösse
+		System: Es können beliebige Bereich belegt werden
+		Vorteile: keine interne Fragmentierung
+		Probleme: Externe Fragmentierung
+		Schema::
+
+			    |--A--|--F--|     |----E----|---G---|  |-H-|
+
+
+		Verwaltungsdaten (Freiliste beginnend bei 1000)::
+		
+			[1000|40| -]-->[1140|50| -]-->[1350|20| -]-->
+
+
+		Suchalgorithmen
+			* first fit: List durchgehen, erste Lücke die ausreichend gross ist, wird genommen
+			* next fit: List durchgehen, beginnen an der zuletzt aufgehörten Stelle bis eine Lücke ausreichender Grösse gefunden wurde
+			* best fit: Gesammte Liste wird nach optimaler Lücke durchsucht
+			* Worst fit: Ganze Liste nach der grössten Lücke durchsuchen
+	Feste Grössenklassen
+		System: Es gibt verschieden Grössenklassen. Bei der Belegung wird auf die nächste aufgerundet.
+		Vorteile: effiziente Suche, Kleine Blöcke können kombiniert und grosse rekombiniert werden
+		Problem: Interne Fragmentierung
+		Schema::
+
+			     |-A-  |---B---   |     |-C-  |          |----D---- |
+
+
+		Verwaltungsdaten::
+
+			50er: [1000| -]-->[1200| -]-->
+			100er:[1300| -]-->
+		Suchalgorithmen
+			* Quick Fit: Getrennte Listen für die verschiedenen Lückengrössen -> es kann jeweils die erste freie Lücke gewählt werden
+	Allozierung in mehrfachen von festen Blöcken
+		System: Es gibt eine Blockgrösse, es können mehrere aufs Mal belegt werden. Eine Bit-Blockzuordnung listet zusammengehörige auf.
+		Vorteile: keine externe Fragmentierung, wenig interne Fragmentierung
+		Probleme: u.U. lange Suchzeiten bis freie Blöcke gefunden
+		Schema::
+
+			|  |  |--|--|--|  |--|--|--|  |  |  |
+
+
+		Verwaltungsdaten::
+
+			Bit-Block-Belegung: 0 0 1 1 1 0 1 1 1 0 0 0
+			[L|0|2| -]-->[P|3|3| -]-->[L|5|1| -]-->[P|6|3| -]-->[L|9|3|  ]
+
+
+		Suchalgorithmen
+			* Liste durchsuchen
+	Buddy System
+		System: Es können Blöcke beliebiger von der Grösse beliebiger 2er Potenzen belegt werden, die Blöcke sind nach Grösse sortiert
+		Vorteile:
+		Probleme:
+		Schema::
+
+		Verwaltungsdaten::
+
+
+		Suchalgorithmen
+
