@@ -563,3 +563,32 @@ Prozessadressräume
 93) Eine Region beschreibt einen belegten Bereich im Prozessadressraum (z.B. Startaddr. des belegten Bereichs, Grösse, Schutzattribute, zugehöriger Hintergrundspeicher).
 
 
+Programmübersetzung
+===================
+94)
+	* Der Programmcode wird übersetzt und zusammen mit Libraries gebunden.
+	* Compilation: Programmcode wird in Assemblerquellcode übersetzt
+	* Assemblierung: Assembler Quellprogramm wird ins Objektformat (Maschinencode+Zusatzinformationen) übersetzt
+	* Linkage: Objektformatdateien werden zusammen mit Bibliotheksobjektformatdateien gebunden und erneut als lad- und ausführbares Objektformat abgelegt.
+	* Darstellung::
+	
+		[preprocessor]->[compiler]->[assembler]->[linker]->Objektformat
+		
+		
+95)
+	Einschritt-Übersetzung
+		Der Quellcode wird in einem Schritt kompiliert und Bibliotheken gebunden.
+	Mehrweg Übersetzung
+		Der Quellcode wird einzeln (jede Datei einzeln) kompiliert und in weiteren Schritten mit den andern Dateien und Libraries gebunden.
+		
+96) Der Compiler besitzt verschiedene Ausgabemodule für verschiedene Plattformen. Die IR abstrahiert die compilierung von der Ausgabe. Der Src-Code wird Plattformunabhängig in die IR umgewandelt und dann erst durch das spezifische Ausgabemodul für die Plattform erzeugt.
+
+97) 
+	compilation
+		Die Dateien werden einzeln in Objektdateien übersetzt
+	1. linkage
+		Die Objektdateien werden gebunden, ebenfalls die Objektdateien der Bibliotheken
+	2. Linkage
+		Die gebundenen Objektdateien und die gebundenen Bibliotheken werden zusammengebunden
+		
+98) 
