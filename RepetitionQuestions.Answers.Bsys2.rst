@@ -427,7 +427,7 @@ Heap
 		*nicht freigegebener Speicher bleibt reserviert, bis der Prozess beendet wird
 	Java
 		* new
-		* -
+		* durch Garbage Collection
 		* Garbage Collection räumt nicht mehr referenzierte Objekt automatisch irgendwann ab
 	Desktop / Server
 		Server laufen unter umständen Jahre. Entsprechend laufen einige Serverprozesse auch Jahre. Würde ein Programm vergessen Speicher dreizugeben, wäre der Speicher irgendwann voll. Bei Desktops ist dies weniger ein Problem, da die Prozesse meist beendet werden, bevor der Speicher volllaufen kann.
@@ -439,9 +439,12 @@ Heap
 
 82)
 	variable Zuordnungsgrösse
-		System: Es können beliebige Bereich belegt werden
-		Vorteile: keine interne Fragmentierung
-		Probleme: Externe Fragmentierung
+		System
+			Es können beliebige Bereich belegt werden
+		Vorteile
+			keine interne Fragmentierung
+		Probleme
+			Externe Fragmentierung
 		Schema::
 
 			    |--A--|--F--|     |----E----|---G---|  |-H-|
@@ -458,9 +461,12 @@ Heap
 			* best fit: Gesammte Liste wird nach optimaler Lücke durchsucht
 			* Worst fit: Ganze Liste nach der grössten Lücke durchsuchen
 	Feste Grössenklassen
-		System: Es gibt verschieden Grössenklassen. Bei der Belegung wird auf die nächste aufgerundet.
-		Vorteile: effiziente Suche, Kleine Blöcke können kombiniert und grosse rekombiniert werden
-		Problem: Interne Fragmentierung
+		System
+			Es gibt verschieden Grössenklassen. Bei der Belegung wird auf die nächste aufgerundet.
+		Vorteile
+			effiziente Suche, Kleine Blöcke können kombiniert und grosse rekombiniert werden
+		Problem
+			Interne Fragmentierung
 		Schema::
 
 			     |-A-  |---B---   |     |-C-  |          |----D---- |
@@ -473,9 +479,12 @@ Heap
 		Suchalgorithmen
 			* Quick Fit: Getrennte Listen für die verschiedenen Lückengrössen -> es kann jeweils die erste freie Lücke gewählt werden
 	Allozierung in mehrfachen von festen Blöcken
-		System: Es gibt eine Blockgrösse, es können mehrere aufs Mal belegt werden. Eine Bit-Blockzuordnung listet zusammengehörige auf.
-		Vorteile: keine externe Fragmentierung, wenig interne Fragmentierung
-		Probleme: u.U. lange Suchzeiten bis freie Blöcke gefunden
+		System
+			Es gibt eine Blockgrösse, es können mehrere aufs Mal belegt werden. Eine Bit-Blockzuordnung listet zusammengehörige auf.
+		Vorteile
+			keine externe Fragmentierung, wenig interne Fragmentierung
+		Probleme
+			interne Fragmentierung, u.U. lange Suchzeiten bis freie Blöcke gefunden
 		Schema::
 
 			|  |  |--|--|--|  |--|--|--|  |  |  |
@@ -490,13 +499,50 @@ Heap
 		Suchalgorithmen
 			* Liste durchsuchen
 	Buddy System
-		System: Es können Blöcke beliebiger von der Grösse beliebiger 2er Potenzen belegt werden, die Blöcke sind nach Grösse sortiert
-		Vorteile:
-		Probleme:
+		System: 
+			Es können Blöcke beliebiger von der Grösse beliebiger 2er Potenzen belegt werden, die Blöcke sind nach Grösse sortiert. Blöcke werden durch aufteilen eines Grösseren in zwei Teile (Buddies) geschaffen. Freie Buddies können rekombiniert werden. Es werden einzelne Freilisten geführt pro Grösse.
+		Vorteile
+			Schnelles Auffinden von freien Lücken, einfache Rekombination
+		Probleme
+			interne Fragmentierung
 		Schema::
+		
+			|----|    |        |----------------|                                |
 
+			
 		Verwaltungsdaten::
 
-
+			64er: [64| -]-->
+			128er: [128| -]-->
+			256: 
+			512er: [512| -]-->
+			
+			
 		Suchalgorithmen
+			* Wenn sich in Freigabelist der benötigten Grösse kein freies Feld mehr befindet -> grössere Felder solange zweiteilen (Buddies), bis ein freies Feld vorliegt
+
+83) Nur indirekt über die Allozierung und Freigabe von Elementen kann zusammenhängender Speicher freigegeben werden in der Hoffnung, das Betriebsystem kann die Bereiche rekombinieren.
+
+84) Die Metadaten der Heap Verwaltung beinhalten sämmtliche Angaben über den Aufbau des Heaps, die Freigabelisten, etc. Sie werden entweder 
+	direkt beim betreffenden Heap Bereich gespeichert
+		* Vorteil: einfach zum freigeben beim Prozessende
+		* Nachteil: über den HS verstreut
+	in einem zentralen Bereich für Heap Metadaten
+		* Vorteil: effiziente Adressierung für das BS
+		* Nachteil: aufwändiger, Bereiche freizugeben
+		
+85) 
+	interne Fragmentierung
+		Es werden grössere Blöcke (nach Grössenklassen oder festen Grössen) als effektiv benötigt alloziert. Dadurch gibt es innerhalb des Blockes Verschnitt.
+	externe Fragmentierung
+		Im HS gibt es Bereiche, die zu klein sind um sie zu belegen oder eine Belegung füllt nicht die Gesammte Lücke und es gibt Rest.
+		
+86) Lückenelliminierung durch Verschieben belegter Bereiche (Defragmentierung)
+
+87) Master Pointer zeigen auf die Startadresse des Heap. Die Applikation greift mittels MP zu. So kann die Heap Verwaltung den Heap umkopieren, ohne dass die Applpikation etwas davon merkt.
+
+88) Es gibt keine garantierte Zugriffszeit bei den Suchalgorithen für freie Lücken. Daher ist diese Heapordnung nicht für Echtzeit Systeme geeignet.
+
+89) 
+
 
