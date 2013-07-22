@@ -546,3 +546,20 @@ Heap
 89) 
 
 
+Prozessadressräume
+==================
+90)
+	.bss
+		uninitialisierte Daten
+	.data
+		initialisierte Daten
+	.text
+		Programmcode
+		
+91) Die Sektionen werden in den Hauptspeicher vor den Heap Bereich kopiert.
+
+92) Eine HS Sektion, die 1:1 Teile eines Files abbilden
+
+93) Eine Region beschreibt einen belegten Bereich im Prozessadressraum (z.B. Startaddr. des belegten Bereichs, Grösse, Schutzattribute, zugehöriger Hintergrundspeicher).
+
+
