@@ -372,195 +372,226 @@ Cache Speicher
 	
 Heap
 ----
-77) Der Heap ist ein Speicherbereich, indem Prozesse dynamisch Speicher allozieren können. Die Programme sind selbst dafür verantwortlich, dass der Speicher wieder freigegeben wird.
-	Schematische Darstellung::
 
-		+------------------------+
-		|                        |
-		+------------------------+   ""\
-		| arguments              |     |
-		+------------------------+     |
-		| environment            |     |
-		+------------------------+     |
-		| code                   |      \
-		+------------------------+       } Application stuff
-		| data                   |      /
-		+------------------------+     |
-		| stack                  |     |
-		+------------------------+     |
-		| heap                   |     |
-		+------------------------+   ../
-		|                        |
-		|                        |
-		+------------------------+   ""\
-		| code                   |     |
-		+------------------------+     |
-		| daten                  |      \
-		+------------------------+       } OS stuff
-		| stack                  |      /
-		+------------------------+     |
-		| heap                   |     |
-		+------------------------+   ../
-		|                        |
-		+------------------------+
+77
+..
+Der Heap ist ein Speicherbereich, indem Prozesse dynamisch Speicher allozieren können. Die Programme sind selbst dafür verantwortlich, dass der Speicher wieder freigegeben wird.
 
+Schematische Darstellung::
 
-78) Der Stack legt die neusten Daten zu oberst auf den Stapel. Wird die aktuelle Funktion beendet, wird dieser Bereich vom Stack abgeräumt und de Daten sind weg. Auf dem Heap verbleiben die Daten bis sie gelöscht werden.
-	Heap
-		* Mit new angelegte Elemente
-	Stack
-		* Methodenaufrufparameter
-		* Rücksrungadresse
-		* Framepointer
-		* lokale Variablen
-
-79) Daten, deren Gültigkeit über die Laufzeit der Funktion hinausgehen, in der sie erzeugt werden, müssen zwingend auf dem Heap abgelegt werden, damit sie weiterhin verfügbar sind.
-
-80)
-	C
-		* malloc(size)
-		* free(pointer)
-		* nicht freigegebener Speicher bleibt reserviert, bis der Prozess beendet wird
-	C++
-		* new type
-		* delete pointer
-		*nicht freigegebener Speicher bleibt reserviert, bis der Prozess beendet wird
-	Java
-		* new
-		* durch Garbage Collection
-		* Garbage Collection räumt nicht mehr referenzierte Objekt automatisch irgendwann ab
-	Desktop / Server
-		Server laufen unter umständen Jahre. Entsprechend laufen einige Serverprozesse auch Jahre. Würde ein Programm vergessen Speicher dreizugeben, wäre der Speicher irgendwann voll. Bei Desktops ist dies weniger ein Problem, da die Prozesse meist beendet werden, bevor der Speicher volllaufen kann.
-
-81)
-	* systeminterne Meldungen
-	* systeminterne Tabellen und Objekte
-	* Sprachübergreifende Speicherbereitstellung
-
-82)
-	variable Zuordnungsgrösse
-		System
-			Es können beliebige Bereich belegt werden
-		Vorteile
-			keine interne Fragmentierung
-		Probleme
-			Externe Fragmentierung
-		Schema::
-
-			    |--A--|--F--|     |----E----|---G---|  |-H-|
+	+------------------------+
+	|                        |
+	+------------------------+   ""\
+	| arguments              |     |
+	+------------------------+     |
+	| environment            |     |
+	+------------------------+     |
+	| code                   |      \
+	+------------------------+       } Application stuff
+	| data                   |      /
+	+------------------------+     |
+	| stack                  |     |
+	+------------------------+     |
+	| heap                   |     |
+	+------------------------+   ../
+	|                        |
+	|                        |
+	+------------------------+   ""\
+	| code                   |     |
+	+------------------------+     |
+	| daten                  |      \
+	+------------------------+       } OS stuff
+	| stack                  |      /
+	+------------------------+     |
+	| heap                   |     |
+	+------------------------+   ../
+	|                        |
+	+------------------------+
 
 
-		Verwaltungsdaten (Freiliste beginnend bei 1000)::
+78
+..
+Der Stack legt die neusten Daten zu oberst auf den Stapel. Wird die aktuelle Funktion beendet, wird dieser Bereich vom Stack abgeräumt und de Daten sind weg. Auf dem Heap verbleiben die Daten bis sie gelöscht werden.
+
+Heap
+	* Mit new angelegte Elemente
+Stack
+	* Methodenaufrufparameter
+	* Rücksrungadresse
+	* Framepointer
+	* lokale Variablen
+
+79
+..
+Daten, deren Gültigkeit über die Laufzeit der Funktion hinausgehen, in der sie erzeugt werden, müssen zwingend auf dem Heap abgelegt werden, damit sie weiterhin verfügbar sind.
+
+80
+..
+C
+	* malloc(size)
+	* free(pointer)
+	* nicht freigegebener Speicher bleibt reserviert, bis der Prozess beendet wird
+C++
+	* new type
+	* delete pointer
+	*nicht freigegebener Speicher bleibt reserviert, bis der Prozess beendet wird
+Java
+	* new
+	* durch Garbage Collection
+	* Garbage Collection räumt nicht mehr referenzierte Objekt automatisch irgendwann ab
+Desktop / Server
+	Server laufen unter umständen Jahre. Entsprechend laufen einige Serverprozesse auch Jahre. Würde ein Programm vergessen Speicher dreizugeben, wäre der Speicher irgendwann voll. Bei Desktops ist dies weniger ein Problem, da die Prozesse meist beendet werden, bevor der Speicher volllaufen kann.
+
+81
+..
+* systeminterne Meldungen
+* systeminterne Tabellen und Objekte
+* Sprachübergreifende Speicherbereitstellung
+
+82
+..
+variable Zuordnungsgrösse
+	System
+		Es können beliebige Bereich belegt werden
+	Vorteile
+		keine interne Fragmentierung
+	Probleme
+		Externe Fragmentierung
+	Schema::
+
+		    |--A--|--F--|     |----E----|---G---|  |-H-|
+
+
+	Verwaltungsdaten (Freiliste beginnend bei 1000)::
+
+		[1000|40| -]-->[1140|50| -]-->[1350|20| -]-->
+
+
+	Suchalgorithmen
+		* first fit: List durchgehen, erste Lücke die ausreichend gross ist, wird genommen
+		* next fit: List durchgehen, beginnen an der zuletzt aufgehörten Stelle bis eine Lücke ausreichender Grösse gefunden wurde
+		* best fit: Gesammte Liste wird nach optimaler Lücke durchsucht
+		* Worst fit: Ganze Liste nach der grössten Lücke durchsuchen
+Feste Grössenklassen
+	System
+		Es gibt verschieden Grössenklassen. Bei der Belegung wird auf die nächste aufgerundet.
+	Vorteile
+		effiziente Suche, Kleine Blöcke können kombiniert und grosse rekombiniert werden
+	Problem
+		Interne Fragmentierung
+	Schema::
+
+		     |-A-  |---B---   |     |-C-  |          |----D---- |
+
+
+	Verwaltungsdaten::
+
+		50er: [1000| -]-->[1200| -]-->
+		100er:[1300| -]-->
+	Suchalgorithmen
+		* Quick Fit: Getrennte Listen für die verschiedenen Lückengrössen -> es kann jeweils die erste freie Lücke gewählt werden
+Allozierung in mehrfachen von festen Blöcken
+	System
+		Es gibt eine Blockgrösse, es können mehrere aufs Mal belegt werden. Eine Bit-Blockzuordnung listet zusammengehörige auf.
+	Vorteile
+		keine externe Fragmentierung, wenig interne Fragmentierung
+	Probleme
+		interne Fragmentierung, u.U. lange Suchzeiten bis freie Blöcke gefunden
+	Schema::
+
+		|  |  |--|--|--|  |--|--|--|  |  |  |
+
+
+	Verwaltungsdaten::
+
+		Bit-Block-Belegung: 0 0 1 1 1 0 1 1 1 0 0 0
+		[L|0|2| -]-->[P|3|3| -]-->[L|5|1| -]-->[P|6|3| -]-->[L|9|3|  ]
+
+
+	Suchalgorithmen
+		* Liste durchsuchen
+Buddy System
+	System:
+		Es können Blöcke beliebiger von der Grösse beliebiger 2er Potenzen belegt werden, die Blöcke sind nach Grösse sortiert. Blöcke werden durch aufteilen eines Grösseren in zwei Teile (Buddies) geschaffen. Freie Buddies können rekombiniert werden. Es werden einzelne Freilisten geführt pro Grösse.
+	Vorteile
+		Schnelles Auffinden von freien Lücken, einfache Rekombination
+	Probleme
+		interne Fragmentierung
+	Schema::
+
+		|----|    |        |----------------|                                |
+
+
+	Verwaltungsdaten::
+
+		64er: [64| -]-->
+		128er: [128| -]-->
+		256:
+		512er: [512| -]-->
+
+
+	Suchalgorithmen
+		* Wenn sich in Freigabelist der benötigten Grösse kein freies Feld mehr befindet -> grössere Felder solange zweiteilen (Buddies), bis ein freies Feld vorliegt
+
+83
+..
+Nur indirekt über die Allozierung und Freigabe von Elementen kann zusammenhängender Speicher freigegeben werden in der Hoffnung, das Betriebsystem kann die Bereiche rekombinieren.
+
+84
+..
+Die Metadaten der Heap Verwaltung beinhalten sämmtliche Angaben über den Aufbau des Heaps, die Freigabelisten, etc. Sie werden entweder
+
+direkt beim betreffenden Heap Bereich gespeichert
+	* Vorteil: einfach zum freigeben beim Prozessende
+	* Nachteil: über den HS verstreut
+in einem zentralen Bereich für Heap Metadaten
+	* Vorteil: effiziente Adressierung für das BS
+	* Nachteil: aufwändiger, Bereiche freizugeben
 		
-			[1000|40| -]-->[1140|50| -]-->[1350|20| -]-->
+85
+.. 
+interne Fragmentierung
+	Es werden grössere Blöcke (nach Grössenklassen oder festen Grössen) als effektiv benötigt alloziert. Dadurch gibt es innerhalb des Blockes Verschnitt.
+externe Fragmentierung
+	Im HS gibt es Bereiche, die zu klein sind um sie zu belegen oder eine Belegung füllt nicht die Gesammte Lücke und es gibt Rest.
+	
+86
+..
+Lückenelliminierung durch Verschieben belegter Bereiche (Defragmentierung)
 
+87
+..
+Master Pointer zeigen auf die Startadresse des Heap. Die Applikation greift mittels MP zu. So kann die Heap Verwaltung den Heap umkopieren, ohne dass die Applpikation etwas davon merkt.
 
-		Suchalgorithmen
-			* first fit: List durchgehen, erste Lücke die ausreichend gross ist, wird genommen
-			* next fit: List durchgehen, beginnen an der zuletzt aufgehörten Stelle bis eine Lücke ausreichender Grösse gefunden wurde
-			* best fit: Gesammte Liste wird nach optimaler Lücke durchsucht
-			* Worst fit: Ganze Liste nach der grössten Lücke durchsuchen
-	Feste Grössenklassen
-		System
-			Es gibt verschieden Grössenklassen. Bei der Belegung wird auf die nächste aufgerundet.
-		Vorteile
-			effiziente Suche, Kleine Blöcke können kombiniert und grosse rekombiniert werden
-		Problem
-			Interne Fragmentierung
-		Schema::
+88
+..
+Es gibt keine garantierte Zugriffszeit bei den Suchalgorithen für freie Lücken. Daher ist diese Heapordnung nicht für Echtzeit Systeme geeignet.
 
-			     |-A-  |---B---   |     |-C-  |          |----D---- |
-
-
-		Verwaltungsdaten::
-
-			50er: [1000| -]-->[1200| -]-->
-			100er:[1300| -]-->
-		Suchalgorithmen
-			* Quick Fit: Getrennte Listen für die verschiedenen Lückengrössen -> es kann jeweils die erste freie Lücke gewählt werden
-	Allozierung in mehrfachen von festen Blöcken
-		System
-			Es gibt eine Blockgrösse, es können mehrere aufs Mal belegt werden. Eine Bit-Blockzuordnung listet zusammengehörige auf.
-		Vorteile
-			keine externe Fragmentierung, wenig interne Fragmentierung
-		Probleme
-			interne Fragmentierung, u.U. lange Suchzeiten bis freie Blöcke gefunden
-		Schema::
-
-			|  |  |--|--|--|  |--|--|--|  |  |  |
-
-
-		Verwaltungsdaten::
-
-			Bit-Block-Belegung: 0 0 1 1 1 0 1 1 1 0 0 0
-			[L|0|2| -]-->[P|3|3| -]-->[L|5|1| -]-->[P|6|3| -]-->[L|9|3|  ]
-
-
-		Suchalgorithmen
-			* Liste durchsuchen
-	Buddy System
-		System: 
-			Es können Blöcke beliebiger von der Grösse beliebiger 2er Potenzen belegt werden, die Blöcke sind nach Grösse sortiert. Blöcke werden durch aufteilen eines Grösseren in zwei Teile (Buddies) geschaffen. Freie Buddies können rekombiniert werden. Es werden einzelne Freilisten geführt pro Grösse.
-		Vorteile
-			Schnelles Auffinden von freien Lücken, einfache Rekombination
-		Probleme
-			interne Fragmentierung
-		Schema::
-		
-			|----|    |        |----------------|                                |
-
-			
-		Verwaltungsdaten::
-
-			64er: [64| -]-->
-			128er: [128| -]-->
-			256: 
-			512er: [512| -]-->
-			
-			
-		Suchalgorithmen
-			* Wenn sich in Freigabelist der benötigten Grösse kein freies Feld mehr befindet -> grössere Felder solange zweiteilen (Buddies), bis ein freies Feld vorliegt
-
-83) Nur indirekt über die Allozierung und Freigabe von Elementen kann zusammenhängender Speicher freigegeben werden in der Hoffnung, das Betriebsystem kann die Bereiche rekombinieren.
-
-84) Die Metadaten der Heap Verwaltung beinhalten sämmtliche Angaben über den Aufbau des Heaps, die Freigabelisten, etc. Sie werden entweder 
-	direkt beim betreffenden Heap Bereich gespeichert
-		* Vorteil: einfach zum freigeben beim Prozessende
-		* Nachteil: über den HS verstreut
-	in einem zentralen Bereich für Heap Metadaten
-		* Vorteil: effiziente Adressierung für das BS
-		* Nachteil: aufwändiger, Bereiche freizugeben
-		
-85) 
-	interne Fragmentierung
-		Es werden grössere Blöcke (nach Grössenklassen oder festen Grössen) als effektiv benötigt alloziert. Dadurch gibt es innerhalb des Blockes Verschnitt.
-	externe Fragmentierung
-		Im HS gibt es Bereiche, die zu klein sind um sie zu belegen oder eine Belegung füllt nicht die Gesammte Lücke und es gibt Rest.
-		
-86) Lückenelliminierung durch Verschieben belegter Bereiche (Defragmentierung)
-
-87) Master Pointer zeigen auf die Startadresse des Heap. Die Applikation greift mittels MP zu. So kann die Heap Verwaltung den Heap umkopieren, ohne dass die Applpikation etwas davon merkt.
-
-88) Es gibt keine garantierte Zugriffszeit bei den Suchalgorithen für freie Lücken. Daher ist diese Heapordnung nicht für Echtzeit Systeme geeignet.
-
-89) 
-
+89
+..
 
 Prozessadressräume
 ==================
-90)
-	.bss
-		uninitialisierte Daten
-	.data
-		initialisierte Daten
-	.text
-		Programmcode
+90
+--
+.bss
+	uninitialisierte Daten
+.data
+	initialisierte Daten
+.text
+	Programmcode
 		
-91) Die Sektionen werden in den Hauptspeicher vor den Heap Bereich kopiert.
+91
+--
+Die Sektionen werden in den Hauptspeicher vor den Heap Bereich kopiert.
 
-92) Eine HS Sektion, die 1:1 Teile eines Files abbilden
+92
+--
+Eine HS Sektion, die 1:1 Teile eines Files abbilden
 
-93) Eine Region beschreibt einen belegten Bereich im Prozessadressraum (z.B. Startaddr. des belegten Bereichs, Grösse, Schutzattribute, zugehöriger Hintergrundspeicher).
+93
+--
+Eine Region beschreibt einen belegten Bereich im Prozessadressraum (z.B. Startaddr. des belegten Bereichs, Grösse, Schutzattribute, zugehöriger Hintergrundspeicher).
 
 
 Programmübersetzung
@@ -810,3 +841,88 @@ Swapping
 		cpu = 1-0.97^5 = 14% CPU Auslastung
 
 
+Virtueller Speicher
+===================
+118
+---
+* Jeder Prozess hat scheinbar den kompletten Speicher für sich alleine.
+* Jeder Prozess kann nur die eigenen Inhalte lesen und schreiben.
+* Es ist mehr Speicher vorhanden, als real in Hardware vorhanden
+
+119
+---
+Virtual Memory Manager: Verwaltet den Virtuellen Speicher und Speicherzugriffe
+
+120
+---
+MMU
+	Memory Management Unit: übernimmt das Umsetzen der logischen Adresse in eine reale. Besteht aus der TLB und einem Zeigeregiter, das auf die Seitentabellen im Hauptspeicher zeigt.
+TLB
+	Translation lookaside Buffer: Buffer in der MMU, der einen Teil der Seitentabellen beinhaltet. Wird bei einem Prozesswechsel geflushed, darum sind Prozesswechsel "teuer".
+
+121
+---
+Virtueller Speicher ist wesentlich aufwändiger als realer, sodass für eine vernünftige Performance die Hardware entsprechende Funktionen zur Verfügung stellen muss. Das Betriebssystem muss Virtuellen Specher unterstützen, weil es für die HS-Verwaltung verantwortlich ist.
+
+**Speicherzugriffablauf**
+
+	::
+
+		Adresszugriff --> Adresse im RAM vorhanden ---------------------------------> Adressinhalte zurückgeben
+		      |                                                                                 ^
+		      v                                                                                 |
+		Seite im RAM --> Freier Seitenrahmen vorhanden? --> Ja ---------------------> Seite in Rahmen laden 
+		nicht vorhanden                |                                                  ^          ^
+		      |                        v                                                  |          |
+		      V                      Nein --> Zu überschreibender Seitenrahmen --> Seite unverändert |
+		Page in Auslagerungs-                 wählen (Opfer)                                         |
+		datei nicht vorhanden                              |                                         |
+		      |                                            v                                         |
+		      V                                  Seite wurde verändert --> Seiteninhalte speichern --'
+		Speicherschutzverletzung                                                  (auslagern)
+
+
+122
+---
+Segmentbasierte Umsetzung
+	* Jedes Programm erhält ein Segment, so gross wie es Speicher braucht
+	* Die Segmente werden als Ganzes auf den Speicher abgebildet
+	* (-) Nicht Transparent
+	* (-) Mögliche Externe Fragmentierung
+	* (-) Teures Auslagern
+	* (+) Keine Segment-Interne Fragmentierung
+Seitenbasierte Umsetzung
+	* Der Speicher wird in gleich grosse Blöcke (Seiten) unterteilt
+	* Es können nur ganze Blöcke genutzt werden
+	* (-) Verschnitt innerhalb derPages
+	* (+) Einfache HS Verwaltung
+	* (+) Kein externer Verschnitt
+	* (+) Effizientes Auslagern
+Kombinationsverfahren
+	* Segmente werden im virtuellen Adressraum platziert und dieser anschliessend über Pages auf den HS abgebildet
+	* (+) kaum interne Fragmentierung
+	* (+) Verwendung segmentbasierter Attribute (Schreibsperre für Codesegment, ...) einfach
+
+123
+---
+Segmentbasiert
+	?
+Seitenbasiert
+	Platzbedarf = 2^(#bit der virt. Adresse) * Seitendeskriptorgrösse (B) / Seitengrösse (B)
+Kombiniert
+	?
+
+124
+---
+* Mehrstufige Tabellen
+* Grössere Seitengrösse
+* Invertierte Seitentabelle (Prozessidentifikation, Seitennummer, Seitenrahmen)
+
+125
+---
+Speicher, den mehrere Prozesse sehen und verwenden können.
+
+Umsetzung: Das BS fügt die Seitendeskriptoren in die Umsetzungstabellen beider Prozesse ein.
+
+
+s
