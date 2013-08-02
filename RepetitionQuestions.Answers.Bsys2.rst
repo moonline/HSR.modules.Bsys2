@@ -253,7 +253,10 @@ Textbasierte Schnittstelle::
 
 40
 --
-Verwaltung der eingehenden Events (Keyboard, Mouse, Touch, ...), Weiterleitung an die Applikation und Verarbeitung der Applikationevents, Eventausgabe (Monitor). Im Unterschied zu Wailand oder Mir besitzt X11 kein Compositor, sonder lagert das Zusammenführen der einzelnen GUI Elemente zu einem Ausgabebild aus.
+* Verwaltung der eingehenden Events (Keyboard, Mouse, Touch, ...)
+* Weiterleitung an die Applikation und Verarbeitung der Applikationevents
+* Eventausgabe (Monitor). 
+* Im Unterschied zu Wailand oder Mir besitzt X11 kein Compositor, sonder lagert das Zusammenführen der einzelnen GUI Elemente zu einem Ausgabebild an einen externen Compositor aus.
 
 41
 --
@@ -262,7 +265,8 @@ Verwaltung der eingehenden Events (Keyboard, Mouse, Touch, ...), Weiterleitung a
 	[Ausgabegeräte, Eingabegeräte] <-> [X-Server] <-> [X-Client, Event Queue]
 	
 	
-* Eingaben von Eingabegeräten landen direkt beim X-Server. Dieser stellt die Events in die EventQueue der betreffenden Applikationen (X-Clients). Applikationen teilen dem X-Server mit, wenn sie etwas dargestellt möchten. Dieser lässt durch den Compositor die Ausgaberendern und gibt Sie an das Ausgabegerät.
+* Eingaben von Eingabegeräten landen direkt beim X-Server. Dieser stellt die Events in die EventQueue der betreffenden Applikationen (X-Clients). 
+* Applikationen teilen dem X-Server mit, wenn sie etwas dargestellt möchten. Dieser lässt durch den Compositor die Ausgabe rendern und gibt Sie an das Ausgabegerät.
 * Ein- und Ausgabegeräte sind somit nicht gekoppelt. So weiss z.B. Das Touchpanel des Bildschirms nichts von der Ausgabe und kann bei einer Rotation der Ausgabe nicht automatisch die Eingabe umkehren. Diese Aufgabe muss der X-Server übernehmen. Dies führt zu dem Problem, dass der X-Server über Jahre für neue Eingabegeräte erweitert werden musste, für die er ursprünglich nicht gedacht war.
 
 42
