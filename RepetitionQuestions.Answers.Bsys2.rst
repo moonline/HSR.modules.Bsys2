@@ -282,7 +282,7 @@ Library, die dem Programmierer eine komfortablere Nutzung der X-Funktionalität 
 
 44
 --
-Stellen eine elementare Benutzeroberfläche mit Grundfunktionen basierend auf dem X-Toolkit.
+Stellen eine elementare Benutzeroberfläche mit Grundfunktionen basierend auf dem X-Toolkit dar.
 
 45
 --
@@ -306,7 +306,10 @@ Definiert das Nachrichtenformat, mit dem X-Server und X-Clients über das Netzwe
 
 47
 --
-X-Ressourcen speichern auf dem X-Server Infomationen im Auftrag des Clients (zur Traficreduktion). Beispiele:
+X-Ressourcen speichern auf dem X-Server Infomationen im Auftrag des Clients (zur Traficreduktion). 
+
+**Beispiele**
+
 * Window preferences
 * Rastergrafiken
 * Farbtabellen
@@ -315,7 +318,7 @@ X-Ressourcen speichern auf dem X-Server Infomationen im Auftrag des Clients (zur
 
 48
 --
-Die Fenster sind wie in einem Baum dem Hautfenster (Root window) untergegliedert. Wiederum sind deren Fensterinhalte Blätter der Fenster.
+Die Fenster sind wie in einem Baum dem Hautfenster (Root window) untergegliedert. Wiederum sind deren Fensterinhalte Kindknoten/Blätter der Fenster.
 
 49
 --
@@ -323,7 +326,7 @@ Einfache Formen und Linien
 
 50
 --
-Die Farbtabelle stellt Shortcuts für die aktuell verwendeten Farben bereit. Dadurch wird der Trafic massiv verringert gegenüber einer direkten Nutzung von z.B. RGB
+Die Farbtabelle stellt Shortcuts für die aktuell verwendeten Farben bereit. Dadurch wird der Trafic massiv verringert gegenüber einer direkten Nutzung von z.B. RGB, weil die Shortcuts kürzen sind als RGB Angaben. Zudem wird nie gleichzeitig der komplette RGB Farbaraum mit allen Farben verwendet.
 
 51
 --
@@ -332,6 +335,7 @@ Ereignisse (Benutzereingaben (Keyboard, Maus, Touch, ...), Systemereignisse (Fen
 
 Windows GUI
 -----------
+
 52
 --
 * Programmgesteuerter Ablauf: Programmierung legt fest, in welcher Reihenfolge Programmteile ablaufen
@@ -380,7 +384,11 @@ Rechteckiges Fenster, bestehend aus:
 	
 57
 --
-createWindow(...Fenstereigenschaften...); ShowWindow(Fenster); UpdateWindow(Fenster); // Anwendungsbereich neu zeichnen
+::
+
+	createWindow(...Fenstereigenschaften...);
+	ShowWindow(Fenster);
+	UpdateWindow(Fenster); // Anwendungsbereich neu zeichnen
 
 58
 --
@@ -404,7 +412,9 @@ Das Virtuel Keyboard ist Tastaturunabhängig und und besitzt alle erforderlichen
 
 61
 --
-Fenster stehen entweder in einer Eltern-Kind beziehung (Child Window wird auf Fläche des Eltern Window begrenzt und über diesem angezeigt) oder in einer Besitzer-Besitz Beziehung (Fenster, das einem andern Fenster gehört und immer vor diesem angezeigt wird). Die Z-Order definiert die Fensterreihenfolge, wobei Eltern Fenster immer zuunterst sind und neu erzeigte Fenster immer zu oberst.
+Fenster stehen entweder in einer Eltern-Kind beziehung (Child Window wird auf Fläche des Eltern Window begrenzt und über diesem angezeigt) oder in einer Besitzer-Besitz Beziehung (Fenster, das einem andern Fenster gehört und immer vor diesem angezeigt wird).
+
+Die Z-Order definiert die Fensterreihenfolge, wobei Eltern Fenster immer zuunterst sind und neu erzeigte Fenster immer zu oberst.
 
 62
 --
